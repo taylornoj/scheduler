@@ -6,8 +6,10 @@ import Empty from "./Empty";
 import useVisualMode from "hooks/useVisualMode";
 import { moduleExpression } from "@babel/types";
 
+// -- mode constants
 const EMPTY = "EMPTY";
 const SHOW = "SHOW";
+const CREATE = "CREATE";
 
 
 export default function Appointment(props) {
@@ -18,7 +20,7 @@ export default function Appointment(props) {
     <article className="appointment">
       <Header time={props.time} />
 
-      {mode === EMPTY && <Empty onAdd={() => console.log("Clicked onAdd")} />}
+      {mode === EMPTY && <Empty onAdd={() => transition(CREATE)} />}
       {mode === SHOW && (
       <Show
         student={props.interview.student}
