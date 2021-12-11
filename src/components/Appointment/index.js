@@ -5,6 +5,7 @@ import Show from "./Show";
 import Empty from "./Empty";
 import useVisualMode from "hooks/useVisualMode";
 import { moduleExpression } from "@babel/types";
+import Form from "./Form";
 
 // -- mode constants
 const EMPTY = "EMPTY";
@@ -27,6 +28,7 @@ export default function Appointment(props) {
         interviewer={props.interview.interviewer}
       />
       )}
+      {mode === CREATE && <Form interviewers={[]} />}
 
       {/* {props.interview ? 
       <Show 
