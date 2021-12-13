@@ -7,6 +7,7 @@ import useVisualMode from "hooks/useVisualMode";
 import { moduleExpression } from "@babel/types";
 import Form from "./Form";
 import Status from "./Status";
+import Confirm from "./Confirm";
 
 // -- mode constants
 const EMPTY = "EMPTY";
@@ -14,6 +15,7 @@ const SHOW = "SHOW";
 const CREATE = "CREATE";
 const SAVING = "SAVING";
 const DELETING = "DELETING";
+const CONFIRM = "CONFIRM"
 
 // -- Appointment component
 export default function Appointment(props) {
@@ -45,6 +47,8 @@ export default function Appointment(props) {
   };
 
 
+
+
   return (
     <article className="appointment">
       <Header time={props.time} />
@@ -54,7 +58,7 @@ export default function Appointment(props) {
       <Show
         student={props.interview.student}
         interviewer={props.interview.interviewer}
-        onDelete={deleteFunc}
+        onDelete={() => transition(CONFIRM)}
       />
       )}
       {mode === CREATE && <Form 
@@ -66,6 +70,11 @@ export default function Appointment(props) {
         />}
         {mode === SAVING && <Status message={"Saving"} />}
         {mode === DELETING && <Status message={"Deleting"} />}
+        {mode === CONFIRM && <Confirm
+        onCancel={() => back()}
+        message={"Are you sure you want to delete?"}
+        onConfirm={deleteFunc}
+        />}
     </article>
   ); 
 }
