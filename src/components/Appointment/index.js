@@ -13,6 +13,7 @@ const EMPTY = "EMPTY";
 const SHOW = "SHOW";
 const CREATE = "CREATE";
 const SAVING = "SAVING";
+const DELETING = "DELETING";
 
 // -- Appointment component
 export default function Appointment(props) {
@@ -32,7 +33,16 @@ export default function Appointment(props) {
       transition(SHOW);
     } )
   }
-  // ==========================
+  
+
+  // -- delete action
+  function deleteFunc(name, interviewer) {
+    transition(DELETING);
+    props.cancelInterview(props.id)
+    .then(() => {
+      transition(EMPTY);
+    });
+  };
 
 
   return (
@@ -44,6 +54,7 @@ export default function Appointment(props) {
       <Show
         student={props.interview.student}
         interviewer={props.interview.interviewer}
+        onDelete={deleteFunc}
       />
       )}
       {mode === CREATE && <Form 
@@ -51,8 +62,10 @@ export default function Appointment(props) {
         onCancel={() => back(EMPTY)} 
         // -- form is capturing name and interviewer from save function
         onSave={save}
+        
         />}
         {mode === SAVING && <Status message={"Saving"} />}
+        {mode === DELETING && <Status message={"Deleting"} />}
     </article>
   ); 
 }
