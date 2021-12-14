@@ -15,7 +15,8 @@ const SHOW = "SHOW";
 const CREATE = "CREATE";
 const SAVING = "SAVING";
 const DELETING = "DELETING";
-const CONFIRM = "CONFIRM"
+const CONFIRM = "CONFIRM";
+const EDIT = "EDIT";
 
 // -- Appointment component
 export default function Appointment(props) {
@@ -59,22 +60,29 @@ export default function Appointment(props) {
         student={props.interview.student}
         interviewer={props.interview.interviewer}
         onDelete={() => transition(CONFIRM)}
+        onEdit={() => transition(EDIT)}
+      />
+      )}
+      {mode === EDIT && ( <Form
+        interviewers={props.interviewers}
+        student={props.interview.student}
+        // interviewer={props.interview.interviewer.id}
+        onCancel={() => back(SHOW)}
+        onSave={save}
       />
       )}
       {mode === CREATE && <Form 
         interviewers={props.interviewers} 
         onCancel={() => back(EMPTY)} 
-        // -- form is capturing name and interviewer from save function
         onSave={save}
-        
-        />}
-        {mode === SAVING && <Status message={"Saving"} />}
-        {mode === DELETING && <Status message={"Deleting"} />}
-        {mode === CONFIRM && <Confirm
+      />}
+      {mode === SAVING && <Status message={"Saving"} />}
+      {mode === DELETING && <Status message={"Deleting"} />}
+      {mode === CONFIRM && <Confirm
         onCancel={() => back()}
         message={"Are you sure you want to delete?"}
         onConfirm={deleteFunc}
-        />}
+      />}
     </article>
   ); 
 }
