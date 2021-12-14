@@ -8,6 +8,7 @@ import { moduleExpression } from "@babel/types";
 import Form from "./Form";
 import Status from "./Status";
 import Confirm from "./Confirm";
+import Error from "./Error";
 
 // -- mode constants
 const EMPTY = "EMPTY";
@@ -17,6 +18,8 @@ const SAVING = "SAVING";
 const DELETING = "DELETING";
 const CONFIRM = "CONFIRM";
 const EDIT = "EDIT";
+const ERROR_SAVE = "ERROR_SAVE";
+const ERROR_DELETE = "ERROR_DELETE";
 
 // -- Appointment component
 export default function Appointment(props) {
@@ -32,9 +35,12 @@ export default function Appointment(props) {
       student: name,
       interviewer
     };
-    props.bookInterview(props.id, interview).then(() => {
-      transition(SHOW);
-    } )
+    props.bookInterview(props.id, interview)
+    .then(() => {
+      transition(SHOW)
+    }).catch(() => {
+      transition(ERROR_SAVE);
+    });
   }
   
 
@@ -43,7 +49,9 @@ export default function Appointment(props) {
     transition(DELETING);
     props.cancelInterview(props.id)
     .then(() => {
-      transition(EMPTY);
+      transition(EMPTY)
+    }).catch(() => {
+      transition(ERROR_DELETE);
     });
   };
 
@@ -83,6 +91,8 @@ export default function Appointment(props) {
         message={"Are you sure you want to delete?"}
         onConfirm={deleteFunc}
       />}
+      {mode === ERROR_SAVE && <Error message={"Could not create appointment"}/>}
+      {mode === ERROR_DELETE && <Error message={"Could not cancel appointment"}/>}
     </article>
   ); 
 }
