@@ -38,10 +38,9 @@ export default function Appointment(props) {
     props.bookInterview(props.id, interview)
     .then(() => {
       transition(SHOW)
-    }).catch(() => {
-      transition(ERROR_SAVE);
-    });
-  }
+    }).catch(() => transition(ERROR_SAVE, true));
+    };
+  
   
 
   // -- delete action
@@ -50,9 +49,7 @@ export default function Appointment(props) {
     props.cancelInterview(props.id)
     .then(() => {
       transition(EMPTY)
-    }).catch(() => {
-      transition(ERROR_DELETE);
-    });
+    }).catch(() => transition(ERROR_DELETE, true));
   };
 
 
@@ -91,8 +88,12 @@ export default function Appointment(props) {
         message={"Are you sure you want to delete?"}
         onConfirm={deleteFunc}
       />}
-      {mode === ERROR_SAVE && <Error message={"Could not create appointment"}/>}
-      {mode === ERROR_DELETE && <Error message={"Could not cancel appointment"}/>}
+      {mode === ERROR_SAVE && <Error message={"Could not create appointment"}
+        onClose={() => back()}
+      />}
+      {mode === ERROR_DELETE && <Error message={"Could not cancel appointment"}
+        onClose={() => back()}
+      />}
     </article>
   ); 
 }
