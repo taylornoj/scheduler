@@ -29,6 +29,9 @@ export default function Appointment(props) {
 
   // -- save action
   function save(name, interviewer) {
+    if(!name || !interviewer) {
+      return;
+    }
     transition(SAVING);
     const interview = {
       student: name,
