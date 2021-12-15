@@ -35,6 +35,8 @@ describe("Appointments", () => {
 
     cy.contains(".appointment__card--show", "Lydia Miller-Jones");
     cy.contains(".appointment__card--show", "Tori Malcolm");
-
   });
+  it("should cancel an interview", () => {
+    
+  })
  });
