@@ -24,6 +24,11 @@ describe("Appointments", () => {
     cy.get("[alt=Edit]")
       .first()
       .click({ force: true });
+      
+    cy.get("[data-testid=student-name-input]")
+      .clear()
+      .type("Lydia Miller-Jones");
+    
 
   });
  });
