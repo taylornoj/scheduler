@@ -28,6 +28,8 @@ describe("Appointments", () => {
     cy.get("[data-testid=student-name-input]")
       .clear()
       .type("Lydia Miller-Jones");
+
+    cy.get('[alt="Tori Malcolm"]').click();
     
 
   });
