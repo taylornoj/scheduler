@@ -31,6 +31,7 @@ describe("Appointments", () => {
 
     cy.get('[alt="Tori Malcolm"]').click();
     
+    cy.contains("Save").click();
 
   });
  });
