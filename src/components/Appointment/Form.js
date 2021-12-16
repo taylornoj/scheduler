@@ -42,17 +42,17 @@ export default function Form(props) {
           />
         </form>
         <section className="appointment__validation">{error}</section>
-        <InterviewerList 
-         interviewers={props.interviewers}
-         value={interviewer}
-         onChange={setInterviewer}
+        <InterviewerList
+          interviewers={props.interviewers}
+          value={interviewer}
+          onChange={setInterviewer}
         />
       </section>
       <section className="appointment__card-right">
-       <section className="appointment__actions">
-        <Button danger onClick={cancel}>Cancel</Button>
-        <Button confirm onClick={validate}>Save</Button>
-       </section>
+        <section className="appointment__actions">
+          <Button danger onClick={cancel}>Cancel</Button>
+          <Button confirm onClick={validate}>Save</Button>
+        </section>
       </section>
     </main>
   )
