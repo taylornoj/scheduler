@@ -19,7 +19,6 @@ export default function useApplicationData() {
 
   // -- makes HTTP request; updating the state object starting at lowest level
   function bookInterview(id, interview) {
-    console.log(id, interview);
     const appointment = {
       ...state.appointments[id],
       interview: { ...interview }
@@ -89,7 +88,6 @@ export default function useApplicationData() {
         appointments: all[1].data,
         interviewers: all[2].data
       }))
-      console.log(all)
     })
   }, []);
   return {
