@@ -68,36 +68,69 @@ export default function useApplicationData() {
           ...days[dayIndex], spots
         }
         days[dayIndex] = newDay
-      })
-    })
+
+        return { ...newState, appointments, days };
+      });
+
+    });
   }
 
+
   // -- makes HTTP request; updates local state
-  function cancelInterview(id) {
-    const appointment = {
-      ...state.appointments[id],
-      interview: null
-    };
-    const appointments = {
-      ...state.appointments,
-      [id]: appointment
-    };
-    const days = [
-      ...state.days,
-    ]
-    const dayIndex = state.days.findIndex((day) =>
-      day.appointments.includes(id)
-    )
-    const spots = fetchFreeSpots(state, appointments)
+  // function cancelInterview(id) {
+  //   const appointment = {
+  //     ...state.appointments[id],
+  //     interview: null
+  //   };
+  //   const appointments = {
+  //     ...state.appointments,
+  //     [id]: appointment
+  //   };
+  //   const days = [
+  //     ...state.days,
+  //   ]
+  //   const dayIndex = state.days.findIndex((day) =>
+  //     day.appointments.includes(id)
+  //   )
+  //   const spots = fetchFreeSpots(state, appointments)
 
-    const newDay = {
-      ...days[dayIndex], spots
-    }
-    days[dayIndex] = newDay
+  //   const newDay = {
+  //     ...days[dayIndex], spots
+  //   }
+  //   days[dayIndex] = newDay
 
+  //   return axios.delete(`/api/appointments/${id}`).then(() => {
+  //     setState(prev => ({ ...prev, appointments, days }));
+  //   })
+  // }
+
+  const cancelInterview = (id) => {
     return axios.delete(`/api/appointments/${id}`).then(() => {
-      setState(prev => ({ ...prev, appointments, days }));
-    })
+      setState((newState) => {
+        const appointment = {
+          ...newState.appointments[id],
+          interview: null
+        };
+        const appointments = {
+          ...newState.appointments,
+          [id]: appointment
+        };
+        const days = [
+          ...newState.days,
+        ]
+        const dayIndex = newState.days.findIndex((day) =>
+          day.appointments.includes(id)
+        )
+        const spots = fetchFreeSpots(newState, appointments)
+
+        const newDay = {
+          ...days[dayIndex], spots
+        }
+        days[dayIndex] = newDay
+
+        return { ...newState, appointments, days };
+      });
+    });
   }
 
   // -- used to set the current day
