@@ -18,30 +18,57 @@ export default function useApplicationData() {
   }
 
   // -- makes HTTP request; updating the state object starting at lowest level
-  function bookInterview(id, interview) {
-    const appointment = {
-      ...state.appointments[id],
-      interview: { ...interview }
-    };
-    const appointments = {
-      ...state.appointments,
-      [id]: appointment
-    };
-    const days = [
-      ...state.days,
-    ]
-    const dayIndex = state.days.findIndex((day) =>
-      day.appointments.includes(id)
-    )
-    const spots = fetchFreeSpots(state, appointments)
+  // function bookInterview(id, interview) {
+  //   const appointment = {
+  //     ...state.appointments[id],
+  //     interview: { ...interview }
+  //   };
+  //   const appointments = {
+  //     ...state.appointments,
+  //     [id]: appointment
+  //   };
+  //   const days = [
+  //     ...state.days,
+  //   ]
+  //   const dayIndex = state.days.findIndex((day) =>
+  //     day.appointments.includes(id)
+  //   )
+  //   const spots = fetchFreeSpots(state, appointments)
 
-    const newDay = {
-      ...days[dayIndex], spots
-    }
-    days[dayIndex] = newDay
+  //   const newDay = {
+  //     ...days[dayIndex], spots
+  //   }
+  //   days[dayIndex] = newDay
 
-    return axios.put(`/api/appointments/${id}`, appointment).then(() => {
-      setState(prev => ({ ...prev, appointments, days }));
+  //   return axios.put(`/api/appointments/${id}`, appointment).then(() => {
+  //     setState(prev => ({ ...prev, appointments, days }));
+  //   })
+  // }
+
+  const bookInterview = (id, interview) => {
+    return axios.put(`/api/appointments/${id}`, { interview }).then(() => {
+      setState((newState) => {
+        const appointment = {
+          ...newState.appointments[id],
+          interview: { ...interview }
+        };
+        const appointments = {
+          ...newState.appointments,
+          [id]: appointment
+        };
+        const days = [
+          ...newState.days,
+        ]
+        const dayIndex = newState.days.findIndex((day) =>
+          day.appointments.includes(id)
+        )
+        const spots = fetchFreeSpots(newState, appointments)
+
+        const newDay = {
+          ...days[dayIndex], spots
+        }
+        days[dayIndex] = newDay
+      })
     })
   }
 
