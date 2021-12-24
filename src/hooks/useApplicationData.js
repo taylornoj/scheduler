@@ -17,34 +17,7 @@ export default function useApplicationData() {
     return emptyApp;
   }
 
-  // -- makes HTTP request; updating the state object starting at lowest level
-  // function bookInterview(id, interview) {
-  //   const appointment = {
-  //     ...state.appointments[id],
-  //     interview: { ...interview }
-  //   };
-  //   const appointments = {
-  //     ...state.appointments,
-  //     [id]: appointment
-  //   };
-  //   const days = [
-  //     ...state.days,
-  //   ]
-  //   const dayIndex = state.days.findIndex((day) =>
-  //     day.appointments.includes(id)
-  //   )
-  //   const spots = fetchFreeSpots(state, appointments)
-
-  //   const newDay = {
-  //     ...days[dayIndex], spots
-  //   }
-  //   days[dayIndex] = newDay
-
-  //   return axios.put(`/api/appointments/${id}`, appointment).then(() => {
-  //     setState(prev => ({ ...prev, appointments, days }));
-  //   })
-  // }
-
+  // -- make request to API, then update new state via callback once API request is resolved
   const bookInterview = (id, interview) => {
     return axios.put(`/api/appointments/${id}`, { interview }).then(() => {
       setState((newState) => {
@@ -74,35 +47,6 @@ export default function useApplicationData() {
 
     });
   }
-
-
-  // -- makes HTTP request; updates local state
-  // function cancelInterview(id) {
-  //   const appointment = {
-  //     ...state.appointments[id],
-  //     interview: null
-  //   };
-  //   const appointments = {
-  //     ...state.appointments,
-  //     [id]: appointment
-  //   };
-  //   const days = [
-  //     ...state.days,
-  //   ]
-  //   const dayIndex = state.days.findIndex((day) =>
-  //     day.appointments.includes(id)
-  //   )
-  //   const spots = fetchFreeSpots(state, appointments)
-
-  //   const newDay = {
-  //     ...days[dayIndex], spots
-  //   }
-  //   days[dayIndex] = newDay
-
-  //   return axios.delete(`/api/appointments/${id}`).then(() => {
-  //     setState(prev => ({ ...prev, appointments, days }));
-  //   })
-  // }
 
   const cancelInterview = (id) => {
     return axios.delete(`/api/appointments/${id}`).then(() => {
@@ -135,7 +79,8 @@ export default function useApplicationData() {
 
   // -- used to set the current day
   const setDay = day => setState({ ...state, day });
-  // -- effect method
+
+  // -- effect method; requests to API server to fetch state data
   useEffect(() => {
     Promise.all([
       axios.get("/api/days"),
