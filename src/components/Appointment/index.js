@@ -8,6 +8,7 @@ import Form from "./Form";
 import Status from "./Status";
 import Confirm from "./Confirm";
 import Error from "./Error";
+// -- this file formats each appointment space depending on status of the interview
 
 // -- mode constants
 const EMPTY = "EMPTY";
@@ -23,15 +24,18 @@ const ERROR_DELETE = "ERROR_DELETE";
 // -- Appointment component
 export default function Appointment(props) {
 
+  // -- SHOW if interview exists, EMPTY if no interview exists
   const { mode, transition, back } = useVisualMode(
     props.interview ? SHOW : EMPTY
   );
 
   // -- save action
   function save(name, interviewer) {
+    // -- if no name entered, or no interviewer selected, form cannot be saved
     if (!name || !interviewer) {
       return;
     }
+    // -- after save, transition to status component, then submit info to API
     transition(SAVING);
     const interview = {
       student: name,
@@ -43,19 +47,16 @@ export default function Appointment(props) {
       }).catch(() => transition(ERROR_SAVE, true));
   };
 
-
-
   // -- delete action
   function deleteFunc() {
+    // -- after delete, transition to status component for DELETING
     transition(DELETING, true);
     props.cancelInterview(props.id)
       .then(() => {
+        // -- remove appointment and transition to EMPTY for blank appointment space
         transition(EMPTY)
       }).catch(() => transition(ERROR_DELETE, true));
   };
-
-
-
 
   return (
     <article className="appointment">
