@@ -4,6 +4,7 @@ Interview Scheduler is a single page React application that allows users to book
 
 Data is persisted by the API server using a PostgreSQL database and Jest tests were used throughout the development of the project.
 
+![gif](https://github.com/taylornoj/scheduler/blob/master/docs/ezgif.com-gif-maker%20(24).gif?raw=true)
 
 ## How it Works
 When a user loads the Interview Scheduler application, the following page is displayed:
